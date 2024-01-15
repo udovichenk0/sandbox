@@ -1,4 +1,4 @@
-// var initialParams = function (fn) {
+ / var initialParams = function (fn) {
 //     return function (/*...args, callback*/) {
 //         var args = slice(arguments);
 //         var callback = args.pop();

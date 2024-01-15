@@ -11,8 +11,8 @@ const promisifySync = (fn) => (...args) => {
     }
   })
 }
+const a = obj
 
-const syncFunction = (number) => {
   return number / 2
 }
 
@@ -21,4 +21,4 @@ const promisified = promisifySync(syncFunction)
 promisified(10)
 .then((value) => {
   console.log(value)
-})
+}

@@ -9,7 +9,6 @@ const exec = (array, fn) => {
   }
   timeout()
 }
-
 const interval = setTimeout(() => {
   console.log("timer triggered")
 }, 10)
@@ -17,3 +16,4 @@ const interval = setTimeout(() => {
 exec(array, (id) => {
   console.log(id)
 })
+console.log('heres')

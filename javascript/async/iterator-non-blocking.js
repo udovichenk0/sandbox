@@ -1,6 +1,6 @@
 const array = Array.from({length: 100}, (_, id) => id + 1)
 
-const obj = {
+export const obj = {
     current: 0,
     last: array.length,
     [Symbol.asyncIterator](){

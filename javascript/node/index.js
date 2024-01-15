@@ -18,24 +18,19 @@ if (cluster.isPrimary) {
     console.log('WORKER DISCONNECTED')
   })
   cluster.on('exit', (worker, code, signal) => {
+    console.log("exitedAfterDisconnect: ", worker.exitedAfterDisconnect)
     console.log('worker is dead:', worker.isDead());
   });
-  // cluster.on('message', (worker, message) => {
-  //   worker.kill()
-  //   setTimeout(() => {
-  //     console.log
-  //   }, 2000)
-  // })
-  cluster.disconnect()
-  cluster.on('exit', (worker) => {
-    console.log(worker.exitedAfterDisconnect)
+  cluster.on('message', (worker, message) => {
+    console.log('here')
+    worker.kill()
   })
-
 } else {
   // Workers can share any TCP connection. In this case, it is an HTTP server.
   const server = http.createServer((req, res) => {
     res.writeHead(200);
-    res.end(`Current process\n ${process.pid}`);
     process.send('s')
+    res.end(`Current process\n ${process.pid}`);
+    // process.exit()
   }).listen(3000);
 }
