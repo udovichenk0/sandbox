@@ -2,16 +2,50 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { createEffect, createEvent, sample } from 'effector'
+import { createQuery, isHttpErrorCode } from '@farfetched/core'
 const makeRequest = async () => {
   const result = await fetch('http://localhost:3001')
 }
+const startFetch = createEvent()
+type Task = {
+  userId: number,
+  id: number,
+  title: string,
+  completed: boolean
+}
+const query = createQuery({
+  effect: createEffect(async () => {
+    const result = await fetch("https://jsonplaceholder.typicode.com/todos/122222")
+    throw new Error('fuck you')
+  }),
+})
+
+sample({
+  clock: startFetch,
+  target: query.start
+})
+sample({
+  source: query.$status,
+  filter: Boolean,
+  fn: console.log
+})
+sample({
+  clock: query.finished.success,
+  fn: () => console.log('success')
+})
+sample({
+  clock: query.finished.failure,
+  fn: ({error}) => console.log(error)
+})
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
-        <button onClick={makeRequest}>Request</button>
+        <button onClick={startFetch}>Start queryy</button>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
