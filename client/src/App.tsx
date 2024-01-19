@@ -2,50 +2,40 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { createEffect, createEvent, sample } from 'effector'
-import { createQuery, isHttpErrorCode } from '@farfetched/core'
-const makeRequest = async () => {
-  const result = await fetch('http://localhost:3001')
-}
+import { createEffect, createEvent, fork, sample } from 'effector'
+import { Provider } from 'effector-react'
+import { createQuery } from '@farfetched/core'
+import { useUnit } from 'effector-react'
 const startFetch = createEvent()
-type Task = {
-  userId: number,
-  id: number,
-  title: string,
-  completed: boolean
-}
-const query = createQuery({
+export const query = createQuery({
+  name: "my_sid",
   effect: createEffect(async () => {
-    const result = await fetch("https://jsonplaceholder.typicode.com/todos/122222")
-    throw new Error('fuck you')
+    const result = await fetch("http://localhost:3000/user/10")
+    const user = await result.json()
+    return user
   }),
 })
 
+// cache(query, {staleAfter: 100000, adapter: sessionStorageCache({ maxEntries: 100, maxAge: 10000})})
 sample({
   clock: startFetch,
   target: query.start
-})
-sample({
-  source: query.$status,
-  filter: Boolean,
-  fn: console.log
+  // target: fx
 })
 sample({
   clock: query.finished.success,
-  fn: () => console.log('success')
-})
-sample({
-  clock: query.finished.failure,
-  fn: ({error}) => console.log(error)
+  fn: () => console.log(query)
 })
 
+const scope = fork()
 function App() {
   const [count, setCount] = useState(0)
-
+  const onFetch = useUnit(startFetch)
   return (
     <>
+    <Provider value={scope}>
       <div>
-        <button onClick={startFetch}>Start queryy</button>
+        <button onClick={onFetch}>Start queryy</button>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -65,6 +55,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+    </Provider>
     </>
   )
 }

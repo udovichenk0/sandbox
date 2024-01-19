@@ -20,7 +20,6 @@ const timer = setTimeout(() => {
   console.log("timer triggered")
 }, 10);
 
-console.log(timer)
 (async () => {
   for await ( const item of obj ){
     console.log(item)

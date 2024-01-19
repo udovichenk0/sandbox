@@ -12,11 +12,15 @@ const promisify = (fn) => (...args) => {
 }
 
 
+
 const promisified = promisify(fs.readFile)
 
-promisified('./text.txt')
+promisified('./texts.txt')
   .then((data) => {
     const text = data.toString()
     console.log(text)
+  })
+  .catch(() => {
+    console.log('got an error')
   })
 
