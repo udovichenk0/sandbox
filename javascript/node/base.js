@@ -1,4 +1,5 @@
 const http = require('node:http')
+const { setDefaultHighWaterMark } = require('node:stream')
 const v8 = require('v8')
 const data = []
 const server = http.createServer(async (req, res) => {
@@ -18,3 +19,11 @@ const server = http.createServer(async (req, res) => {
 	console.log(process.pid)
   console.log("start the server")
 })
+
+alskdfjlasdf 
+a
+setDefaultHighWaterMarkasd
+falsesdf
+alskdfjlasdfsd
+falsesdfsd
+falseas
