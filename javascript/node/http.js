@@ -1,6 +1,5 @@
 const http = require('node:http');
 // const { listenerCount } = require('node:process');
-const net = require('node:net');
 
 // const json = JSON.stringify({namae: "denis"})
 // http.createServer((req, res) => {
@@ -117,43 +116,43 @@ const net = require('node:net');
 
 
 
-const agent = new http.Agent()
+// const agent = new http.Agent()
 
 const server = http.createServer({
   keepAlive: true
 }, (req, res) => {
-server.getConnections((c) => {
-  console.log("Connection: ", c)
+// server.getConnections((c) => {
+//   console.log("Connection: ", c)
+// })
+  if(req.url == '/foo'){
+    res.end("Request handled")
+  }
 })
-  console.log("from server")
-  const json = JSON.stringify({value: "value"})
-  console.log(req.headers)
-  res.end(json)
-})
+server.listen(3001, () => console.log("listen server"))
 
-server.listen(3000, () => {
-  console.log("listen the server")
-  const req = http.request({
-    port: 3000,
-    host: 'localhost',
-    agent: agent
-  }, (res) => {
-    res.on('data', (chunk) => {
-      console.log(chunk.toString())
-    })
-  })
-  req.end()
-  const client = net.createConnection({ port: 3000 }, () => {
-    console.log('connected to server')
-    client.write('alsdfadf')
-  })
+// server.listen(3000, () => {
+//   console.log("listen the server")
+//   const req = http.request({
+//     port: 3000,
+//     host: 'localhost',
+//     agent: agent
+//   }, (res) => {
+//     res.on('data', (chunk) => {
+//       console.log(chunk.toString())
+//     })
+//   })
+//   req.end()
+//   const client = net.createConnection({ port: 3000 }, () => {
+//     console.log('connected to server')
+//     client.write('alsdfadf')
+//   })
   
-  client.on('data', (chunk) => {
-    console.log("aosdfjalsdf")
-    console.log(chunk.toString())
-    client.end()
-  })
-  client.on('end', () => {
-    console.log('disconnected from server');
-  }); 
-})
+//   client.on('data', (chunk) => {
+//     console.log("aosdfjalsdf")
+//     console.log(chunk.toString())
+//     client.end()
+//   })
+//   client.on('end', () => {
+//     console.log('disconnected from server');
+//   }); 
+// })

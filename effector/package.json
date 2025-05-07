@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@farfetched/core": "^0.10.5",
+    "echarts": "^5.5.1",
+    "echarts-for-react": "^3.0.2",
     "effector": "^22.8.7",
     "effector-react": "^22.5.4",
     "immer": "^10.0.3",
